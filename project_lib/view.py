@@ -5,22 +5,41 @@ import tkintermapview as tkmapview
 #ROBIC COMMITY! ! !
 
 class Login:
-    def __init__(self, name, psswd):
-        self.name=name
-        self.psswd = psswd
+    def __init__(self):
 
         self.root = Tk()
         self.root.configure(background="#69797D")
         self.root.title("Logowanie")
-        self.root.geometry("400x700")
+        self.root.geometry("400x400")
 
+        self.log_frame = Frame(self.root)
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=1)
+        self.log_frame.grid(column=0, row=0)
 
-    def login(self):
-        if self.psswd == 'admin':
-            AppView.run()
+        self.build_login()
 
-     def run(self):
-        self.root.mainloop()
+    def log(self,log:str,psswd:str):
+        if  psswd == 'admin' and log == 'admin':
+            app=AppView()
+            app.run()
+            self.run()
+
+    def build_login(self):
+        self.log_name=Label(self.log_frame,text="Login", font=("Segoe UI", 14, 'bold'))
+        self.log_psswd=Label(self.log_frame,text="Password",font=("Segoe UI", 14, 'bold'))
+        self.entry_name=Entry(self.log_frame)
+        self.entry_psswd=Entry(self.log_frame)
+
+        self.log_name.grid(column=0,row=0,padx=10,pady=10,sticky='W')
+        self.log_psswd.grid(column=1,row=0,padx=10,pady=10,sticky="W")
+        self.entry_name.grid(column=0,row=1,padx=10,pady=10)
+        self.entry_psswd.grid(column=1,row=1,padx=10,pady=10)
+        self.log_button=Button(self.log_frame,text='Login', command=lambda: self.log(self.entry_name.get(),self.entry_psswd.get()))
+        self.log_button.grid(column=0,row=2,padx=10,pady=10,sticky='W')
+
+    def run(self):
+         self.root.mainloop()
 
 
 
