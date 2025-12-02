@@ -22,8 +22,8 @@ class Login:
     def log(self,log:str,psswd:str):
         if  psswd == 'admin' and log == 'admin':
             app=AppView()
+            self.root.destroy()
             app.run()
-            self.run()
 
     def build_login(self):
         self.log_name=Label(self.log_frame,text="Login", font=("Segoe UI", 14, 'bold'))
