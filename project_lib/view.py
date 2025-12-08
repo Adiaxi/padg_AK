@@ -136,6 +136,33 @@ class AppView:
         self.w_root.title("Add")
         self.w_root.geometry("400x400")
 
+        self.w_root.grid_rowconfigure(0, weight=1)
+        self.w_root.grid_columnconfigure(0, weight=1)
+
+        self.window_form_frame=Frame(self.w_root, borderwidth=3, relief="solid")
+        self.window_form_frame.grid(row=0, column=0, padx=15,pady=15)
+
+        self.fr_label(self.window_form_frame, 'Bank Name', 1, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+        self.fr_label(self.window_form_frame, 'Bank Town', 2, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+        self.fr_label(self.window_form_frame, 'Bank Street', 3, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+        self.fr_label(self.window_form_frame, 'Bank Number', 4, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+        self.fr_label(self.window_form_frame, 'Bank Logo', 5, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+
+        self.entry_bank_name = Entry(self.window_form_frame)
+        self.entry_bank_town = Entry(self.window_form_frame)
+        self.entry_bank_street = Entry(self.window_form_frame)
+        self.entry_bank_number = Entry(self.window_form_frame)
+        self.entry_bank_logo = Entry(self.window_form_frame)
+
+        self.entry_bank_name.grid(row=1, column=1)
+        self.entry_bank_town.grid(row=2, column=1)
+        self.entry_bank_street.grid(row=3, column=1)
+        self.entry_bank_number.grid(row=4, column=1)
+        self.entry_bank_logo.grid(row=5, column=1)
+
+        self.button_bank_save = self.f_b(self.window_form_frame, 'Save', 15, 2)
+        self.button_bank_save.grid(row=6, column=1, pady=10, sticky='W')
+
     def build_bank_form(self):
         self.fr_label(self.frame_bank_form, 'Bank Name',1,0, self.f_name, self.f_size,  'bold', 1, 1, self.f_anch,1)
         self.fr_label(self.frame_bank_form, 'Bank Town',2,0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch,1)
