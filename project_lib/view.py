@@ -9,7 +9,7 @@ class Login:
 
         self.root = Tk()
         self.root.configure(background="#69797D")
-        self.root.title("Logowanie")
+        self.root.title("Login")
         self.root.geometry("400x400")
 
         self.log_frame = Frame(self.root)
@@ -125,8 +125,16 @@ class AppView:
 
         self.button_bank_details= self.f_b(self.frame_bank_list, 'Show details', 10, 1)
         self.button_bank_edit= self.f_b(self.frame_bank_list, 'Edit', 10, 1)
+        self.button_bank_form= Button(self.frame_bank_list, text='Add',command=lambda:self.build_form_window())
         self.button_bank_details.grid(row=2, column=0, pady=10, sticky='W')
         self.button_bank_edit.grid(row=2, column=1, pady=10, sticky='W')
+        self.button_bank_form.grid(row=3, column=1, pady=10, sticky='W')
+
+    def build_form_window(self):
+        self.w_root = Tk()
+        self.w_root.configure(background="#69797D")
+        self.w_root.title("Add")
+        self.w_root.geometry("400x400")
 
     def build_bank_form(self):
         self.fr_label(self.frame_bank_form, 'Bank Name',1,0, self.f_name, self.f_size,  'bold', 1, 1, self.f_anch,1)
