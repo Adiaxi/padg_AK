@@ -75,10 +75,12 @@ class AppView:
         self.frame_bank_list = Frame(self.root,borderwidth=3, relief="solid")
         self.frame_bank_details = Frame(self.root, bg="lightblue",borderwidth=3, relief="solid")
         self.frame_bank_form = Frame(self.root, borderwidth=3, relief="solid")
+        self.frame_button_list = Frame(self.frame_bank_list)
 
         self.frame_bank_list.grid(row=0, column=0, padx=(50,0), pady=(15,5), sticky='W')
         self.frame_bank_form.grid(row=0, column=1, sticky='W')
         self.frame_bank_details.grid(row=1, column=0, sticky='W', padx=(15,0))
+        self.frame_button_list.grid(row=1, column=1, sticky='W')
 
         self.build_bank_list_frame()
         self.build_bank_details()
@@ -98,8 +100,6 @@ class AppView:
         self.build_worker_form()
         self.build_worker_details()
 
-
-        # ZROBIC TAK ABY FORMULARZ DODAWNIA SIE WYSWIETLAL JAKO DODATKOWE OKIENKO A NIE WSZYSTKO W JEDNYM ! ! ! !
 
 
         # MAP FRAME
@@ -133,12 +133,12 @@ class AppView:
         self.listbox_banks = Listbox(self.frame_bank_list)
         self.listbox_banks.grid(row=1, column=0)
 
-        self.button_bank_details= self.f_b(self.frame_bank_list, 'Show details', 10, 1)
-        self.button_bank_edit= self.f_b(self.frame_bank_list, 'Edit', 10, 1)
-        self.button_bank_form= Button(self.frame_bank_list, text='Add',command=lambda:self.build_form_window())
-        self.button_bank_details.grid(row=2, column=0, pady=10, sticky='W')
-        self.button_bank_edit.grid(row=2, column=1, pady=10, sticky='W')
-        self.button_bank_form.grid(row=3, column=1, pady=10, sticky='W')
+        self.button_bank_details= self.f_b(self.frame_button_list, 'Show details', 10, 1)
+        self.button_bank_edit= self.f_b(self.frame_button_list, 'Edit', 10, 1)
+        self.button_bank_form= Button(self.frame_button_list, text='Add',command=lambda:self.build_form_window())
+        self.button_bank_details.grid(row=1, column=0,padx=4, pady=10, sticky='W')
+        self.button_bank_edit.grid(row=2, column=0,padx=4, pady=10, sticky='W')
+        self.button_bank_form.grid(row=3, column=0,padx=4, pady=10, sticky='W')
 
     def build_form_window(self):
         self.w_root = Tk()
