@@ -17,6 +17,7 @@ class Login:
         self.root.grid_columnconfigure(0, weight=1)
         self.log_frame.grid(column=0, row=0)
 
+
         self.build_login()
 
     def log(self,log:str,psswd:str):
@@ -29,15 +30,25 @@ class Login:
         self.log_name=Label(self.log_frame,text="Login", font=("Segoe UI", 14, 'bold'))
         self.log_psswd=Label(self.log_frame,text="Password",font=("Segoe UI", 14, 'bold'))
         self.entry_name=Entry(self.log_frame)
-        self.entry_psswd=Entry(self.log_frame)
+
+        self.pswd_button = Button(self.log_frame, text="See", command=lambda: self.pswd())
+        self.pswd_button.grid(column=2,row=1, padx=5, pady=5)
+        self.entry_pswd=Entry(self.log_frame, show='*')
 
         self.log_name.grid(column=0,row=0,padx=10,pady=10,sticky='W')
         self.log_psswd.grid(column=1,row=0,padx=10,pady=10,sticky="W")
         self.entry_name.grid(column=0,row=1,padx=10,pady=10)
-        self.entry_psswd.grid(column=1,row=1,padx=10,pady=10)
-        self.log_button=Button(self.log_frame,text='Login', command=lambda: self.log(self.entry_name.get(),self.entry_psswd.get()))
+        self.entry_pswd.grid(column=1,row=1,padx=10,pady=10)
+
+        self.log_button=Button(self.log_frame,text='Login', command=lambda: self.log(self.entry_name.get(),self.entry_pswd.get()))
         self.log_button.grid(column=0,row=2,padx=10,pady=10,sticky='W')
 
+    def pswd(self):
+        if self.entry_pswd.cget("show")=='*':
+            self.entry_pswd.config(show='')
+
+        elif self.entry_pswd.cget("show")=='':
+            self.entry_pswd.config(show='*')
     def run(self):
          self.root.mainloop()
 
@@ -65,12 +76,11 @@ class AppView:
         self.frame_bank_details = Frame(self.root, bg="lightblue",borderwidth=3, relief="solid")
         self.frame_bank_form = Frame(self.root, borderwidth=3, relief="solid")
 
-        self.frame_bank_list.grid(row=0, column=0, padx=(15,0), pady=(15,5), sticky='W')
+        self.frame_bank_list.grid(row=0, column=0, padx=(50,0), pady=(15,5), sticky='W')
         self.frame_bank_form.grid(row=0, column=1, sticky='W')
         self.frame_bank_details.grid(row=1, column=0, sticky='W', padx=(15,0))
 
         self.build_bank_list_frame()
-        self.build_bank_form()
         self.build_bank_details()
 
 
@@ -136,18 +146,24 @@ class AppView:
         self.w_root.title("Add")
         self.w_root.geometry("400x400")
 
-    def build_bank_form(self):
-        self.fr_label(self.frame_bank_form, 'Bank Name',1,0, self.f_name, self.f_size,  'bold', 1, 1, self.f_anch,1)
-        self.fr_label(self.frame_bank_form, 'Bank Town',2,0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch,1)
-        self.fr_label(self.frame_bank_form, 'Bank Street',3,0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch,1)
-        self.fr_label(self.frame_bank_form, 'Bank Number',4,0, self.f_name, self.f_size,'bold', 1, 1, self.f_anch,1)
-        self.fr_label(self.frame_bank_form, 'Bank Logo',5,0, self.f_name, self.f_size,'bold', 1, 1, self.f_anch,1)
+        self.w_root.grid_rowconfigure(0, weight=1)
+        self.w_root.grid_columnconfigure(0, weight=1)
 
-        self.entry_bank_name=Entry(self.frame_bank_form)
-        self.entry_bank_town=Entry(self.frame_bank_form)
-        self.entry_bank_street=Entry(self.frame_bank_form)
-        self.entry_bank_number=Entry(self.frame_bank_form)
-        self.entry_bank_logo=Entry(self.frame_bank_form)
+        self.window_form_frame=Frame(self.w_root, borderwidth=3, relief="solid")
+        self.window_form_frame.grid(row=0, column=0, padx=15,pady=15)
+
+        self.head=self.fr_label(self.window_form_frame, 'Add Bank', 0, 0, self.f_name, 15, 'bold', 60, 1, 'center', 1)
+        self.fr_label(self.window_form_frame, 'Bank Name', 1, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+        self.fr_label(self.window_form_frame, 'Bank Town', 2, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+        self.fr_label(self.window_form_frame, 'Bank Street', 3, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+        self.fr_label(self.window_form_frame, 'Bank Number', 4, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+        self.fr_label(self.window_form_frame, 'Bank Logo', 5, 0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 1)
+
+        self.entry_bank_name = Entry(self.window_form_frame)
+        self.entry_bank_town = Entry(self.window_form_frame)
+        self.entry_bank_street = Entry(self.window_form_frame)
+        self.entry_bank_number = Entry(self.window_form_frame)
+        self.entry_bank_logo = Entry(self.window_form_frame)
 
         self.entry_bank_name.grid(row=1, column=1)
         self.entry_bank_town.grid(row=2, column=1)
@@ -155,8 +171,9 @@ class AppView:
         self.entry_bank_number.grid(row=4, column=1)
         self.entry_bank_logo.grid(row=5, column=1)
 
-        self.button_bank_save= self.f_b(self.frame_bank_form, 'Save', 15, 2)
-        self.button_bank_save.grid(row=6, column=1,pady=10, sticky='W')
+        self.button_bank_save = self.f_b(self.window_form_frame, 'Save', 15, 2)
+        self.button_bank_save.grid(row=6, column=1, pady=10, sticky='W')
+
 
 
     def build_bank_details(self):
