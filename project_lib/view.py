@@ -62,8 +62,9 @@ class AppView:
         self.root.title("PADG Projekt")
         self.root.geometry("1920x1080")
 
-        self.root.rowconfigure(1, weight=0)
-        self.root.columnconfigure(3, weight=0)
+        # self.root.rowconfigure(1, weight=1)
+        # self.root.columnconfigure(3, weight=0)
+        # self.root.grid_columnconfigure(0, weight=1)
 
         self.f_size: int = 10
         self.f_name: str = 'Segoe UI'
@@ -104,13 +105,13 @@ class AppView:
 
         # MAP FRAME
         self.map_frame=Frame(self.root, borderwidth=10, relief="sunken")
-        self.map_frame.grid(row=2,column=0, pady=(20,0), columnspan=5)
+        self.map_frame.grid(row=2,column=0, pady=(20,0), columnspan=5, sticky='nsew')
         self.map_widget=tkmapview.TkinterMapView(self.map_frame, width=1506, height=435, corner_radius=0)
-        self.map_widget.grid(row=1, column=0)
-        self.map_widget.set_position(deg_x=52.2, deg_y=21.0)
+        self.map_widget.grid(row=1, column=0, sticky='nsew')
+        self.map_widget.set_position(52.2,21.0)
         self.map_widget.set_zoom(10)
 
-        self.build_map()
+       # self.build_map()
 
     def fr_label(self,fr, t: str, r: int, col: int, f1:str, f2:int, f3:str, x:int, y:int, anch:str, en:int):
         from tkinter import Label
@@ -141,7 +142,7 @@ class AppView:
         self.button_bank_form.grid(row=3, column=0,padx=4, pady=10, sticky='W')
 
     def build_form_window(self):
-        self.w_root = Tk()
+        self.w_root = Toplevel(self.root)
         self.w_root.configure(background="#69797D")
         self.w_root.title("Add")
         self.w_root.geometry("400x400")
@@ -210,8 +211,9 @@ class AppView:
         self.fr_label(self.frame_worker_details, 'Worker Details', 0,0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 0)
 
     def build_map(self):
-        self.map_menu=Label(self.map_frame, text='MENU')
-        self.map_menu.grid(row=0, column=0, columnspan=5, sticky='N')
+        self.map_menu = Frame(self.map_frame)
+        Label(self.map_menu, text="MENU").grid(row=0, column=0)
+        self.map_menu.grid(row=0, column=0, sticky='N')
 
         self.map_find_button=self.f_b(self.map_menu, 'Find Bank', 10,2)
         self.map_find_button.grid(row=0,column=0)
