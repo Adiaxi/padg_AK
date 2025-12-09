@@ -105,10 +105,10 @@ class AppView:
         # MAP FRAME
         self.map_frame=Frame(self.root, borderwidth=10, relief="sunken")
         self.map_frame.grid(row=2,column=0, pady=(20,0), columnspan=5)
-        self.map_widget=tkmapview.TkinterMapView(self.map_frame, width=1506, height=455, corner_radius=0)
-        self.map_widget.grid(row=0, column=0, sticky="")
+        self.map_widget=tkmapview.TkinterMapView(self.map_frame, width=1506, height=435, corner_radius=0)
+        self.map_widget.grid(row=1, column=0)
         self.map_widget.set_position(deg_x=52.2, deg_y=21.0)
-        self.map_widget.set_zoom(14)
+        self.map_widget.set_zoom(10)
 
         self.build_map()
 
