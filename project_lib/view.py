@@ -1,5 +1,6 @@
 from tkinter import *
 import tkintermapview as tkmapview
+import customtkinter as ctk
 
 #OSMNX BIBLIOTEKA SPRAWDZIĆ
 #ROBIC COMMITY! ! !
@@ -7,10 +8,10 @@ import tkintermapview as tkmapview
 class Login:
     def __init__(self):
 
-        self.root = Tk()
+        self.root = ctk.CTk()
         self.root.configure(background="#69797D")
         self.root.title("Login")
-        self.root.geometry("400x400")
+        self.root.geometry("400x350")
 
         self.log_frame = Frame(self.root)
         self.root.grid_rowconfigure(0, weight=1)
@@ -22,8 +23,8 @@ class Login:
 
     def log(self,log:str,psswd:str):
         if  psswd == 'admin' and log == 'admin':
-            app=AppView()
             self.root.destroy()
+            app=AppView()
             app.run()
 
     def build_login(self):
@@ -57,7 +58,7 @@ class Login:
 class AppView:
     def __init__(self):
 
-        self.root = Tk()
+        self.root = ctk.CTk()
         self.root.configure(background="#69797D")
         self.root.title("PADG Projekt")
         self.root.geometry("1920x1080")
@@ -72,7 +73,7 @@ class AppView:
 
 
 
-    # BANK FRAMES
+    # BANK FRAMES   
         self.frame_bank_list = Frame(self.root,borderwidth=3, relief="solid")
         self.frame_bank_details = Frame(self.root, bg="lightblue",borderwidth=3, relief="solid")
         self.frame_bank_form = Frame(self.root, borderwidth=3, relief="solid")
@@ -140,6 +141,13 @@ class AppView:
         self.button_bank_details.grid(row=1, column=0,padx=4, pady=10, sticky='W')
         self.button_bank_edit.grid(row=2, column=0,padx=4, pady=10, sticky='W')
         self.button_bank_form.grid(row=3, column=0,padx=4, pady=10, sticky='W')
+
+    def new_window(self):
+        self.new_root = ctk.CTk()
+        self.new_root.title("BANK APP")
+        self.new_root.geometry("400x400")
+
+        self.new_root.mainloop()
 
     def build_form_window(self):
         self.w_root = Toplevel(self.root)
