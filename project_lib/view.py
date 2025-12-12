@@ -2,6 +2,10 @@ from tkinter import *
 import tkintermapview as tkmapview
 import customtkinter as ctk
 
+
+
+
+
 #OSMNX BIBLIOTEKA SPRAWDZIĆ
 #ROBIC COMMITY! ! !
 
@@ -59,58 +63,66 @@ class AppView:
     def __init__(self):
 
         self.root = ctk.CTk()
-        self.root.configure(background="#69797D")
+        self.root.configure(fg_color="#2F383B")
         self.root.title("PADG Projekt")
-        self.root.geometry("1920x1080")
-
-        # self.root.rowconfigure(1, weight=1)
-        # self.root.columnconfigure(3, weight=0)
-        # self.root.grid_columnconfigure(0, weight=1)
+        self.root.geometry("1600x900")
 
         self.f_size: int = 10
         self.f_name: str = 'Segoe UI'
         self.f_anch: str = 'center'
 
+        self.root.grid_rowconfigure(0, weight=1)
+        self.root.grid_columnconfigure(0, weight=7)
+        self.root.grid_columnconfigure(1, weight=3)
 
 
-    # BANK FRAMES   
-        self.frame_bank_list = Frame(self.root,borderwidth=3, relief="solid")
-        self.frame_bank_details = Frame(self.root, bg="lightblue",borderwidth=3, relief="solid")
-        self.frame_bank_form = Frame(self.root, borderwidth=3, relief="solid")
-        self.frame_button_list = Frame(self.frame_bank_list)
-
-        self.frame_bank_list.grid(row=0, column=0, padx=(50,0), pady=(15,5), sticky='W')
-        self.frame_bank_form.grid(row=0, column=1, sticky='W')
-        self.frame_bank_details.grid(row=1, column=0, sticky='W', padx=(15,0))
-        self.frame_button_list.grid(row=1, column=1, sticky='W')
-
-        self.build_bank_list_frame()
-        self.build_bank_details()
-
-
-
-    # WORKER FRAMES
-        self.frame_worker_list = Frame(self.root, borderwidth=3, relief="solid")
-        self.frame_worker_details = Frame(self.root, bg="lightblue", borderwidth=3, relief="solid")
-        self.frame_worker_form = Frame(self.root, borderwidth=3, relief="solid")
-
-        self.frame_worker_list.grid(row=0, column=2, padx=(100,0), pady=(15,0), sticky='W')
-        self.frame_worker_form.grid(row=0, column=3, sticky='W')
-        self.frame_worker_details.grid(row=1, column=2, padx=(100,15), sticky='W')
-
-        self.build_worker_list()
-        self.build_worker_form()
-        self.build_worker_details()
-
-
-
-        # MAP FRAME
-        self.map_frame=Frame(self.root, borderwidth=10, relief="sunken")
-        self.map_frame.grid(row=2,column=0, pady=(20,0), columnspan=5, sticky='nsew')
-        self.map_widget=tkmapview.TkinterMapView(self.map_frame, width=1506, height=435, corner_radius=0)
-        self.map_widget.grid(row=1, column=0, sticky='nsew')
-        self.map_widget.set_position(52.2,21.0)
+    # MAP FRAME
+        self.map_frame = ctk.CTkFrame(self.root)
+        self.map_frame.grid(row=0, column=0, sticky='nsew')
+        self.map_widget = tkmapview.TkinterMapView(self.map_frame, corner_radius=0)
+        self.map_widget.pack(fill='both', expand=True)
+        self.map_widget.set_position(52.2, 21.0)
         self.map_widget.set_zoom(10)
+
+
+
+    # BANK FRAMES
+
+        self.side_bar_frame = ctk.CTkFrame(self.root, width=200, height=200, corner_radius=25, fg_color="#69797D")
+        self.side_bar_frame.grid(row=0, column=1, sticky='nsew')
+        ctk.CTkLabel(self.side_bar_frame, text='Bank List', font=('Montserrat', 14, 'bold')).pack(pady=10)
+
+        # self.frame_bank_list = Frame(self.root,borderwidth=3, relief="solid")
+        # self.frame_bank_details = Frame(self.root, bg="lightblue",borderwidth=3, relief="solid")
+        # self.frame_bank_form = Frame(self.root, borderwidth=3, relief="solid")
+        # self.frame_button_list = Frame(self.frame_bank_list)
+        #
+        # self.frame_bank_list.grid(row=0, column=0, padx=(50,0), pady=(15,5), sticky='W')
+        # self.frame_bank_form.grid(row=0, column=1, sticky='W')
+        # self.frame_bank_details.grid(row=1, column=0, sticky='W', padx=(15,0))
+        # self.frame_button_list.grid(row=1, column=1, sticky='W')
+        #
+        # self.build_bank_list_frame()
+        # self.build_bank_details()
+
+
+
+    # # WORKER FRAMES
+    #     self.frame_worker_list = Frame(self.root, borderwidth=3, relief="solid")
+    #     self.frame_worker_details = Frame(self.root, bg="lightblue", borderwidth=3, relief="solid")
+    #     self.frame_worker_form = Frame(self.root, borderwidth=3, relief="solid")
+    #
+    #     self.frame_worker_list.grid(row=0, column=2, padx=(100,0), pady=(15,0), sticky='W')
+    #     self.frame_worker_form.grid(row=0, column=3, sticky='W')
+    #     self.frame_worker_details.grid(row=1, column=2, padx=(100,15), sticky='W')
+    #
+    #     self.build_worker_list()
+    #     self.build_worker_form()
+    #     self.build_worker_details()
+
+
+
+
 
        # self.build_map()
 
