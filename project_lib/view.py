@@ -3,9 +3,6 @@ import tkintermapview as tkmapview
 import customtkinter as ctk
 
 
-
-
-
 #OSMNX BIBLIOTEKA SPRAWDZIĆ
 #ROBIC COMMITY! ! !
 
@@ -62,14 +59,13 @@ class Login:
 class AppView:
     def __init__(self):
 
+        self.bg_color: str = "#1F2933"
+
         self.root = ctk.CTk()
-        self.root.configure(fg_color="#2F383B")
+        self.root.configure(fg_color=self.bg_color)
         self.root.title("PADG Projekt")
         self.root.geometry("1600x900")
 
-        self.f_size: int = 10
-        self.f_name: str = 'Segoe UI'
-        self.f_anch: str = 'center'
 
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=7)
@@ -77,9 +73,9 @@ class AppView:
 
 
     # MAP FRAME
-        self.map_frame = ctk.CTkFrame(self.root)
+        self.map_frame = ctk.CTkFrame(self.root, corner_radius=0, fg_color=self.bg_color)
         self.map_frame.grid(row=0, column=0, sticky='nsew')
-        self.map_widget = tkmapview.TkinterMapView(self.map_frame, corner_radius=0)
+        self.map_widget = tkmapview.TkinterMapView(self.map_frame, corner_radius=30)
         self.map_widget.pack(fill='both', expand=True)
         self.map_widget.set_position(52.2, 21.0)
         self.map_widget.set_zoom(10)
@@ -88,9 +84,24 @@ class AppView:
 
     # BANK FRAMES
 
-        self.side_bar_frame = ctk.CTkFrame(self.root, width=200, height=200, corner_radius=25, fg_color="#69797D")
+        self.side_bar_frame = ctk.CTkFrame(self.root, fg_color=self.bg_color)
         self.side_bar_frame.grid(row=0, column=1, sticky='nsew')
-        ctk.CTkLabel(self.side_bar_frame, text='Bank List', font=('Montserrat', 14, 'bold')).pack(pady=10)
+        self.side_bar_frame.grid_propagate(False)
+        self.side_bar_frame.grid_columnconfigure(0, weight=1)
+
+        self.bank_frame=ctk.CTkFrame(self.side_bar_frame, corner_radius=20, fg_color="#2F3A40", border_width=3,border_color="#4B5A5E")
+        self.bank_frame.grid(row=0,column=0, padx=15,pady=15, sticky='ew')
+        self.bank_frame.grid_columnconfigure((0, 1, 2), weight=1)
+
+
+        self.build_bank_list_frame()
+
+        self.worker_frame = ctk.CTkFrame(self.side_bar_frame, width=100, height=100, corner_radius=20, fg_color="#69797D")
+        self.worker_frame.grid(row=1, column=0, padx=15, pady=15)
+        self.worker_label = ctk.CTkLabel(self.worker_frame, text='Bank List', font=('Montserrat', 14, 'bold'))
+        self.worker_label.grid(row=1, column=0)
+
+
 
         # self.frame_bank_list = Frame(self.root,borderwidth=3, relief="solid")
         # self.frame_bank_details = Frame(self.root, bg="lightblue",borderwidth=3, relief="solid")
@@ -143,16 +154,25 @@ class AppView:
 
 
     def build_bank_list_frame(self):
-        self.fr_label(self.frame_bank_list, 'Bank List',0,0, self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 0)
-        self.listbox_banks = Listbox(self.frame_bank_list)
-        self.listbox_banks.grid(row=1, column=0)
+        self.bank_label=ctk.CTkLabel(self.bank_frame, text='Bank List', font=('Montserrat', 24, 'bold'), fg_color="#2F3A40")
+        self.bank_label.grid(row=0, column=0, columnspan=5, padx=10, pady=10)
 
-        self.button_bank_details= self.f_b(self.frame_button_list, 'Show details', 10, 1)
-        self.button_bank_edit= self.f_b(self.frame_button_list, 'Edit', 10, 1)
-        self.button_bank_form= Button(self.frame_button_list, text='Add',command=lambda:self.build_form_window())
-        self.button_bank_details.grid(row=1, column=0,padx=4, pady=10, sticky='W')
-        self.button_bank_edit.grid(row=2, column=0,padx=4, pady=10, sticky='W')
-        self.button_bank_form.grid(row=3, column=0,padx=4, pady=10, sticky='W')
+        self.bank_listbox=ctk.CTkScrollableFrame(self.bank_frame, width=400, corner_radius=20, fg_color='#37474F')
+        self.bank_listbox.grid(row=1,column=0, columnspan=5, padx=20)
+
+        self.bank_add_btn=ctk.CTkButton(self.bank_frame, text="Add Bank", font=("Montserrat", 14, "bold"), width=130, fg_color="#37474F")
+        self.bank_add_btn.grid(row=2, column=0, padx=10, pady=15)
+        self.bank_details_btn=ctk.CTkButton(self.bank_frame, text="Details",font=("Montserrat", 14, "bold"),width=140, fg_color='#37474F')
+        self.bank_details_btn.grid(row=2, column=1, padx=10, pady=15)
+        self.bank_edit_btn=ctk.CTkButton(self.bank_frame, text="Edit",font=("Montserrat", 14, "bold"),width=140,fg_color='#37474F')
+        self.bank_edit_btn.grid(row=2, column=2, padx=10,pady=15)
+
+        # self.button_bank_details= self.f_b(self.frame_button_list, 'Show details', 10, 1)
+        # self.button_bank_edit= self.f_b(self.frame_button_list, 'Edit', 10, 1)
+        # self.button_bank_form= Button(self.frame_button_list, text='Add',command=lambda:self.build_form_window())
+        # self.button_bank_details.grid(row=1, column=0,padx=4, pady=10, sticky='W')
+        # self.button_bank_edit.grid(row=2, column=0,padx=4, pady=10, sticky='W')
+        # self.button_bank_form.grid(row=3, column=0,padx=4, pady=10, sticky='W')
 
     def new_window(self):
         self.new_root = ctk.CTk()
