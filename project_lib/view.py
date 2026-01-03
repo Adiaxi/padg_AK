@@ -93,13 +93,13 @@ class AppView:
         self.bank_frame.grid(row=0,column=0, padx=15,pady=15, sticky='ew')
         self.bank_frame.grid_columnconfigure((0, 1, 2), weight=1)
 
-
         self.build_bank_list_frame()
 
-        self.worker_frame = ctk.CTkFrame(self.side_bar_frame, width=100, height=100, corner_radius=20, fg_color="#69797D")
-        self.worker_frame.grid(row=1, column=0, padx=15, pady=15)
-        self.worker_label = ctk.CTkLabel(self.worker_frame, text='Bank List', font=('Montserrat', 14, 'bold'))
-        self.worker_label.grid(row=1, column=0)
+        self.worker_frame = ctk.CTkFrame(self.side_bar_frame, corner_radius=20, fg_color="#2F3A40", border_width=3,border_color="#4B5A5E")
+        self.worker_frame.grid(row=1, column=0, padx=15, pady=15, sticky='ew')
+        self.worker_frame.grid_columnconfigure((0, 1, 2), weight=1)
+
+        self.build_workers_list_frame()
 
 
 
@@ -160,19 +160,26 @@ class AppView:
         self.bank_listbox=ctk.CTkScrollableFrame(self.bank_frame, width=400, corner_radius=20, fg_color='#37474F')
         self.bank_listbox.grid(row=1,column=0, columnspan=5, padx=20)
 
-        self.bank_add_btn=ctk.CTkButton(self.bank_frame, text="Add Bank", font=("Montserrat", 14, "bold"), width=130, fg_color="#37474F")
+        self.bank_add_btn=ctk.CTkButton(self.bank_frame, text="Add Bank", font=("Montserrat", 14, "bold"), width=130, fg_color="#2563EB")
         self.bank_add_btn.grid(row=2, column=0, padx=10, pady=15)
         self.bank_details_btn=ctk.CTkButton(self.bank_frame, text="Details",font=("Montserrat", 14, "bold"),width=140, fg_color='#37474F')
         self.bank_details_btn.grid(row=2, column=1, padx=10, pady=15)
-        self.bank_edit_btn=ctk.CTkButton(self.bank_frame, text="Edit",font=("Montserrat", 14, "bold"),width=140,fg_color='#37474F')
+        self.bank_edit_btn=ctk.CTkButton(self.bank_frame, text="Edit",font=("Montserrat", 14, "bold"),width=140,fg_color='#D97706')
         self.bank_edit_btn.grid(row=2, column=2, padx=10,pady=15)
 
-        # self.button_bank_details= self.f_b(self.frame_button_list, 'Show details', 10, 1)
-        # self.button_bank_edit= self.f_b(self.frame_button_list, 'Edit', 10, 1)
-        # self.button_bank_form= Button(self.frame_button_list, text='Add',command=lambda:self.build_form_window())
-        # self.button_bank_details.grid(row=1, column=0,padx=4, pady=10, sticky='W')
-        # self.button_bank_edit.grid(row=2, column=0,padx=4, pady=10, sticky='W')
-        # self.button_bank_form.grid(row=3, column=0,padx=4, pady=10, sticky='W')
+    def build_workers_list_frame(self):
+        self.worker_frame= ctk.CTkLabel(self.worker_frame, text="Worker List", font=('Montserrat', 24, 'bold'), fg_color="#2F3A40" )
+        self.worker_frame.grid(row=0, column=0, columnspan=5, padx=10, pady=10)
+
+        self.worker_listbox=ctk.CTkScrollableFrame(self.worker_frame, width=400, corner_radius=20, fg_color='#37474F')
+        self.worker_listbox.grid(row=1,column=0, columnspan=5, padx=20)
+
+        self.worker_add_btn=ctk.CTkButton(self.worker_frame, text="Add Worker", font=("Montserrat", 14, "bold"), width=130, fg_color="#2563EB")
+        self.worker_add_btn.grid(row=2, column=0, padx=10, pady=15)
+        self.worker_details_btn = ctk.CTkButton(self.worker_frame, text="Details",font=("Montserrat", 14, "bold"),width=140, fg_color='#37474F')
+        self.worker_details_btn.grid(row=2, column=1, padx=10, pady=15)
+        self.worker_edit_btn=ctk.CTkButton(self.worker_frame,text="Edit",font=("Montserrat", 14, "bold"),width=140,fg_color='#D97706')
+        self.worker_edit_btn.grid(row=2, column=2, padx=10, pady=15)
 
     def new_window(self):
         self.new_root = ctk.CTk()
