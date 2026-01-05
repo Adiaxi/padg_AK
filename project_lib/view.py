@@ -1,6 +1,8 @@
 from tkinter import *
 import tkintermapview as tkmapview
 import customtkinter as ctk
+from project_lib.model import *
+from project_lib.controller import *
 
 
 #OSMNX BIBLIOTEKA SPRAWDZIĆ
@@ -58,9 +60,7 @@ class Login:
 
 class AppView:
     def __init__(self):
-
         self.bg_color: str = "#1F2933"
-
         self.root = ctk.CTk()
         self.root.configure(fg_color=self.bg_color)
         self.root.title("PADG Projekt")
@@ -107,6 +107,11 @@ class AppView:
 
         self.build_user_window_button_frame()
 
+        self.selected_label = None
+        self.selected_bank = None
+        self.bank_info()
+        self.add_bank_markers()
+
     def build_bank_list_frame(self):
         self.bank_header=ctk.CTkFrame(self.bank_frame, fg_color="transparent")
         self.bank_header.grid(row=0, column=0, columnspan=5, padx=5, pady=20)
@@ -124,6 +129,86 @@ class AppView:
         self.bank_details_btn.grid(row=2, column=1, padx=10, pady=15)
         self.bank_edit_btn=ctk.CTkButton(self.bank_frame, text="Edit",font=("Montserrat", 14, "bold"),width=140,fg_color='#D97706', hover_color="#F59E0B")
         self.bank_edit_btn.grid(row=2, column=2, padx=10,pady=15)
+
+    def bank_entry_clear(self):
+        for ent in (
+                self.entry_bank_name,
+                self.entry_bank_town,
+                self.entry_bank_street,
+                self.entry_bank_number,
+                self.entry_bank_logo
+        ):
+            ent.delete(0, END)
+
+    def bank_info(self):
+        for i in self.bank_listbox.winfo_children():
+            i.destroy()
+        self.map_widget.delete_all_marker()
+        b=banks
+
+        for bank in banks:
+            self.row = ctk.CTkFrame(self.bank_listbox, fg_color="transparent")
+            self.row.pack(fill="x", padx=10, pady=3)
+
+            bk = ctk.CTkLabel(self.row, font=("Montserrat", 15, "bold"), text=(f"{bank.name}"), anchor="w",justify="left")
+            bk.pack(side='left',fill='x', expand=True, padx=10)
+            bk.bind("<Button-1>", lambda e,b=bank, l=bk: self.select_bank(b, l) )
+
+            btn = ctk.CTkButton(self.row, text="X", font=("Montserrat", 11, "bold"), width=80, command=lambda temp=bank: (delete_bank(temp),self.bank_info()), fg_color="#B91C1C", hover_color="#DC2626")
+            btn.pack(side='right', padx=10)
+
+        self.add_bank_markers()
+
+    def select_bank(self, bank, label):
+        if self.selected_label:
+            self.selected_label.configure(fg_color="#37474F")
+        label.configure(fg_color="#6563EB")
+        self.selected_label = label
+        self.selected_bank = bank
+
+    def add_bank_markers(self):
+        for bank in banks:
+            if bank.coords:
+                self.map_widget.set_marker(
+                    bank.coords[0],
+                    bank.coords[1],
+                    text=bank.name
+                )
+
+    def build_bank_form_window(self):
+        self.w_root = ctk.CTkToplevel(self.root)
+        self.w_root.transient(self.root)
+        self.w_root.grab_set()
+        self.w_root.title("Add")
+        self.w_root.configure(fg_color="#69797D")
+        self.w_root.geometry("400x400")
+        self.w_root.grid_rowconfigure(0, weight=1)
+        self.w_root.grid_columnconfigure(0, weight=1)
+        self.window_form_frame=ctk.CTkFrame(self.w_root, corner_radius=12)
+        self.window_form_frame.grid(row=0, column=0, padx=15,pady=15, sticky='nsew')
+        self.window_form_frame.grid_columnconfigure(1, weight=1)
+        self.head= ctk.CTkLabel(self.window_form_frame, text="Add Bank", font=('Montserrat', 25, "bold")).grid(row=0, column=0, columnspan=2, pady=(10, 15))
+        labels = ["Bank Name", "Bank Town", "Bank Street", "Bank Number", "Bank Logo"]
+        for i, text in enumerate(labels, start=1):
+            ctk.CTkLabel(self.window_form_frame,text=text,font=('Montserrat', 18, "bold"),anchor="w").grid(row=i, column=0, padx=(15,5), pady=5, sticky='w')
+        self.entry_bank_name = ctk.CTkEntry(self.window_form_frame)
+        self.entry_bank_town = ctk.CTkEntry(self.window_form_frame)
+        self.entry_bank_street = ctk.CTkEntry(self.window_form_frame)
+        self.entry_bank_number = ctk.CTkEntry(self.window_form_frame)
+        self.entry_bank_logo = ctk.CTkEntry(self.window_form_frame)
+        entries = [
+            self.entry_bank_name,
+            self.entry_bank_town,
+            self.entry_bank_street,
+            self.entry_bank_number,
+            self.entry_bank_logo
+        ]
+        for i, entry in enumerate(entries, start=1):
+            entry.grid(row=i, column=1, padx=15, pady=5, sticky='nsew')
+        self.button_bank_save = ctk.CTkButton(self.window_form_frame,text="Save",font=('Montserrat', 20, "bold"),width=120,height=35, command=lambda:(add_bank(self.entry_bank_name.get(), self.entry_bank_town.get(), self.entry_bank_street.get(), self.entry_bank_number.get(),self.entry_bank_logo.get()), self.bank_entry_clear(), self.bank_info()))
+        self.button_bank_save.grid(row=6, column=0, columnspan=2,padx=30,pady=25, sticky="nsew")
+
+
 
     def build_workers_list_frame(self):
         self.worker_header = ctk.CTkFrame(self.worker_frame, fg_color="transparent")
@@ -215,38 +300,15 @@ class AppView:
         self.button_bank_save.grid(row=8, column=0, columnspan=2, padx=30, pady=25, sticky="nsew")
 
 
-    def build_bank_form_window(self):
-        self.w_root = ctk.CTkToplevel(self.root)
-        self.w_root.transient(self.root)
-        self.w_root.grab_set()
-        self.w_root.title("Add")
-        self.w_root.configure(fg_color="#69797D")
-        self.w_root.geometry("400x400")
-        self.w_root.grid_rowconfigure(0, weight=1)
-        self.w_root.grid_columnconfigure(0, weight=1)
-        self.window_form_frame=ctk.CTkFrame(self.w_root, corner_radius=12)
-        self.window_form_frame.grid(row=0, column=0, padx=15,pady=15, sticky='nsew')
-        self.window_form_frame.grid_columnconfigure(1, weight=1)
-        self.head= ctk.CTkLabel(self.window_form_frame, text="Add Bank", font=('Montserrat', 25, "bold")).grid(row=0, column=0, columnspan=2, pady=(10, 15))
-        labels = ["Bank Name", "Bank Town", "Bank Street", "Bank Number", "Bank Logo"]
-        for i, text in enumerate(labels, start=1):
-            ctk.CTkLabel(self.window_form_frame,text=text,font=('Montserrat', 18, "bold"),anchor="w").grid(row=i, column=0, padx=(15,5), pady=5, sticky='w')
-        self.entry_bank_name = ctk.CTkEntry(self.window_form_frame)
-        self.entry_bank_town = ctk.CTkEntry(self.window_form_frame)
-        self.entry_bank_street = ctk.CTkEntry(self.window_form_frame)
-        self.entry_bank_number = ctk.CTkEntry(self.window_form_frame)
-        self.entry_bank_logo = ctk.CTkEntry(self.window_form_frame)
-        entries = [
-            self.entry_bank_name,
-            self.entry_bank_town,
-            self.entry_bank_street,
-            self.entry_bank_number,
-            self.entry_bank_logo
-        ]
-        for i, entry in enumerate(entries, start=1):
-            entry.grid(row=i, column=1, padx=15, pady=5, sticky='nsew')
-        self.button_bank_save = ctk.CTkButton(self.window_form_frame,text="Save",font=('Montserrat', 20, "bold"),width=120,height=35)
-        self.button_bank_save.grid(row=6, column=0, columnspan=2,padx=30,pady=25, sticky="nsew")
+
+
+    def bank_form_clear(self):
+        self.entry_bank_name.delete(0, END)
+        self.entry_bank_town.delete(0, END)
+        self.entry_bank_street.delete(0, END)
+        self.entry_bank_number.delete(0, END)
+        self.entry_bank_logo.delete(0, END)
+        self.entry_bank_name.focus()
 
     def build_bank_details(self):
         self.fr_label(self.frame_bank_details, 'Bank Details',0,0,self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 0)
