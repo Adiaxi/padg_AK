@@ -1,6 +1,7 @@
 from tkinter import *
 import tkintermapview as tkmapview
 import customtkinter as ctk
+from project_lib.model import *
 
 
 #OSMNX BIBLIOTEKA SPRAWDZIĆ
@@ -58,9 +59,7 @@ class Login:
 
 class AppView:
     def __init__(self):
-
         self.bg_color: str = "#1F2933"
-
         self.root = ctk.CTk()
         self.root.configure(fg_color=self.bg_color)
         self.root.title("PADG Projekt")
@@ -107,6 +106,11 @@ class AppView:
 
         self.build_user_window_button_frame()
 
+        self.selected_label = None
+        self.selected_bank = None
+        self.bank_info()
+        self.add_bank_markers()
+
     def build_bank_list_frame(self):
         self.bank_header=ctk.CTkFrame(self.bank_frame, fg_color="transparent")
         self.bank_header.grid(row=0, column=0, columnspan=5, padx=5, pady=20)
@@ -124,6 +128,31 @@ class AppView:
         self.bank_details_btn.grid(row=2, column=1, padx=10, pady=15)
         self.bank_edit_btn=ctk.CTkButton(self.bank_frame, text="Edit",font=("Montserrat", 14, "bold"),width=140,fg_color='#D97706', hover_color="#F59E0B")
         self.bank_edit_btn.grid(row=2, column=2, padx=10,pady=15)
+
+    def bank_info(self):
+        # self.bank_listbox.destroy()
+        b=banks
+        for bank in banks:
+            bk = ctk.CTkLabel(self.bank_listbox, font=("Montserrat", 15, "bold"), text=(f"{bank.name}, {bank.town}, {bank.street}, {bank.build_numb}"), anchor="w",justify="left")
+            bk.pack(fill="x", padx=10)
+
+            bk.bind("<Button-1>", lambda e,b=bank, l=bk: self.select_bank(b, l) )
+
+    def select_bank(self, bank, label):
+        if self.selected_label:
+            self.selected_label.configure(fg_color="#37474F")
+        label.configure(fg_color="#6563EB")
+        self.selected_label = label
+        self.selected_bank = bank
+
+    def add_bank_markers(self):
+        for bank in banks:
+            if bank.coords:
+                self.map_widget.set_marker(
+                    bank.coords[0],
+                    bank.coords[1],
+                    text=bank.name
+                )
 
     def build_workers_list_frame(self):
         self.worker_header = ctk.CTkFrame(self.worker_frame, fg_color="transparent")
@@ -247,6 +276,22 @@ class AppView:
             entry.grid(row=i, column=1, padx=15, pady=5, sticky='nsew')
         self.button_bank_save = ctk.CTkButton(self.window_form_frame,text="Save",font=('Montserrat', 20, "bold"),width=120,height=35)
         self.button_bank_save.grid(row=6, column=0, columnspan=2,padx=30,pady=25, sticky="nsew")
+
+        return (
+            self.entry_bank_name.get(),
+            self.entry_bank_town.get(),
+            self.entry_bank_street.get(),
+            self.entry_bank_number.get(),
+            self.entry_bank_logo.get()
+        )
+
+    def bank_form_clear(self):
+        self.entry_bank_name.delete(0, END)
+        self.entry_bank_town.delete(0, END)
+        self.entry_bank_street.delete(0, END)
+        self.entry_bank_number.delete(0, END)
+        self.entry_bank_logo.delete(0, END)
+        self.entry_bank_name.focus()
 
     def build_bank_details(self):
         self.fr_label(self.frame_bank_details, 'Bank Details',0,0,self.f_name, self.f_size, 'bold', 1, 1, self.f_anch, 0)
