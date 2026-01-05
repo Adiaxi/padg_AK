@@ -19,24 +19,19 @@ class Bank:
         lat, lon = ox.geocode(place)
         return lat, lon
 
-        # url: str = f'https://pl.wikipedia.org/wiki/{self.town}'
-        # headers = {
-        #     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-        #                   "(KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
-        # }
-        # response = requests.get(url, headers=headers)
-        #
-        # # print(response.text)
-        # response_html = BeautifulSoup(response.text, "html.parser")
-        # # print(response_html.prettify())
-        #
-        # latitude = float(response_html.select('.latitude')[0].text.replace(',', '.'))
-        # longitude = float(response_html.select('.longitude')[0].text.replace(',', '.'))
-        # return ([latitude, longitude])
+
 
 banks=[
-    Bank("PKO", "Warszawa", "Świętokrzyska", 12, "pko.png"),
-    Bank("ING", "Kraków", "Długa", 5, "ing.png")
+    Bank("PKO Bank Polski", "Wieluń", "Wojska Polskiego", 12, "pko.png"),
+    Bank("ING Bank Śląski", "Kraków", "Długa", 5, "ing.png"),
+    Bank("Narodowy Bank Polski", "Warszawa", "Świętokrzyska", 11, "nbp.png"),
+    Bank("Santander Bank Polska", "Wrocław", "Rynek", 9, "santander.png"),
+    Bank("mBank", "Łódź", "Piotrkowska", 87, "mbank.png"),
+    Bank("Alior Bank", "Gdańsk", "Długa", 13, "alior.png"),
+    Bank("Bank Millennium", "Poznań", "Półwiejska", 32, "millennium.png"),
+    Bank("Credit Agricole", "Opole", "Ozimska", 19, "ca.png"),
+    Bank("BNP Paribas", "Katowice", "3 Maja", 10, "bnp.png"),
+    Bank("Citi Handlowy", "Szczecin", "Aleja Niepodległości", 22, "citi.png")
 ]
 class Worker:
     def __init__(self, name:str, surname:str, bank:str, role:str, town:str, street:str, home_number:int, img:str):
