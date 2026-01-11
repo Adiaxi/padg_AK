@@ -2,11 +2,11 @@ from project_lib import controller as con, view
 import osmnx as ox
 
 
-workers=[]
 users=[]
 
 class Bank:
-    def __init__(self, name:str, town:str, street:str, build_numb:int, logo:str):
+    def __init__(self, id:int, name:str, town:str, street:str, build_numb:int, logo:str):
+        self.id = id
         self.name = name
         self.town = town
         self.street = street
@@ -21,20 +21,21 @@ class Bank:
 
 
 
-banks=[
-    Bank("PKO Bank Polski", "Wieluń", "Wojska Polskiego", 12, "pko.png"),
-    Bank("ING Bank Śląski", "Kraków", "Długa", 5, "ing.png"),
-    Bank("Narodowy Bank Polski", "Warszawa", "Świętokrzyska", 11, "nbp.png"),
-    Bank("Santander Bank Polska", "Wrocław", "Rynek", 9, "santander.png"),
-    Bank("mBank", "Łódź", "Piotrkowska", 87, "mbank.png"),
-    Bank("Alior Bank", "Gdańsk", "Długa", 13, "alior.png"),
-    Bank("Bank Millennium", "Poznań", "Półwiejska", 32, "millennium.png"),
-    Bank("Credit Agricole", "Opole", "Ozimska", 19, "ca.png"),
-    Bank("BNP Paribas", "Katowice", "3 Maja", 10, "bnp.png"),
-    Bank("Citi Handlowy", "Szczecin", "Aleja Niepodległości", 22, "citi.png")
+banks = [
+    Bank(1, "PKO Bank Polski", "Warszawa", "Marszałkowska", 12, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(2, "ING Bank Śląski", "Kraków", "Długa", 5, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(3, "Santander Bank Polska", "Wrocław", "Rynek", 9, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(4, "mBank", "Łódź", "Piotrkowska", 87, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(5, "Alior Bank", "Gdańsk", "Długa", 13, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(6, "Millennium Bank", "Poznań", "Półwiejska", 32, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(7, "BNP Paribas", "Katowice", "3 Maja", 10, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(8, "Credit Agricole", "Opole", "Ozimska", 19, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(9, "Citi Handlowy", "Szczecin", "Aleja Niepodległości", 22, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank(10, "Nest Bank", "Warszawa", "Puławska", 145, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
 ]
+
 class Worker:
-    def __init__(self, name:str, surname:str, bank:str, role:str, town:str, street:str, home_number:int, img:str):
+    def __init__(self, name:str, surname:str, bank:str, role:str, town:str, street:str, home_number:int, img:str, password:str):
         self.name = name
         self.surname = surname
         self.bank = bank
@@ -43,22 +44,16 @@ class Worker:
         self.street = street
         self.home_number = home_number
         self.img = img
-
+        self.password = password
+        self.coords=self.get_coords()
 
     def get_coords(self):
-        from bs4 import BeautifulSoup
-        import requests
-        url: str = f'https://pl.wikipedia.org/wiki/{self.town}'
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                          "(KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
-        }
-        response = requests.get(url, headers=headers)
+        place = f"{self.street} {self.home_number}, {self.town}, Poland"
+        lat, lon = ox.geocode(place)
+        return lat, lon
 
-        # print(response.text)
-        response_html = BeautifulSoup(response.text, "html.parser")
-        # print(response_html.prettify())
 
-        latitude = float(response_html.select('.latitude')[1].text.replace(',', '.'))
-        longitude = float(response_html.select('.longitude')[1].text.replace(',', '.'))
-        return ([latitude, longitude])
+workers=[
+    Worker("Jan", "Kowalski", "PKO Bank Polski", "Doradca", "Warszawa", "Marszałkowska", 10, "https://example.com/photo.jpg", "haslo123")
+ ]
+
