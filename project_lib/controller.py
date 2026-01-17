@@ -20,6 +20,7 @@ def details_bank(bank):
 def add_worker(name, surname, bank, role, town, street, number, logo, password)->None:
     model.workers.append(model.Worker(name=name, surname=surname, bank=bank, role=role, town=town, street=street, home_number=number, img=logo, password=password))
 
+
 def delete_worker(worker):
     model.workers.remove(worker)
 
@@ -35,4 +36,34 @@ def details_worker(worker):
         "coords": worker.coords
     }
 
+def add_user(name, surname, bank, town, street, number, email, phone, password, balance) -> None:
+    model.users.append(
+        model.User(
+            name=name,
+            surname=surname,
+            bank=bank,
+            town=town,
+            street=street,
+            home_number=number,
+            email=email,
+            phone=phone,
+            password=password,
+            balance=balance
+        )
+    )
+
+def delete_user(user):
+    model.users.remove(user)
+
+def details_user(user):
+    return {
+        "name": user.name,
+        "surname": user.surname,
+        "bank": user.bank.name,
+        "town": user.town,
+        "street": user.street,
+        "number": user.home_number,
+        "email": user.email,
+        "phone": user
+    }
 
