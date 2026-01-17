@@ -173,7 +173,7 @@ class AppView:
             self.row = ctk.CTkFrame(self.bank_listbox, fg_color="transparent")
             self.row.pack(fill="x", padx=10, pady=3)
 
-            bk = ctk.CTkLabel(self.row, font=("Montserrat", 15, "bold"), text=(f"{bank.id},{bank.name}"), anchor="w",justify="left")
+            bk = ctk.CTkLabel(self.row, font=("Montserrat", 15, "bold"), text=(f"{bank.name}"), anchor="w",justify="left")
             bk.pack(side='left',fill='x', expand=True, padx=10)
             bk.bind("<Button-1>", lambda e,b=bank, l=bk: self.select_bank(b, l) )
 

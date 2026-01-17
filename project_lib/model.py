@@ -6,7 +6,7 @@ import random
 users=[]
 
 class Bank:
-    def __init__(self, id:int, name:str, town:str, street:str, build_numb:int, logo:str):
+    def __init__(self, name:str, town:str, street:str, build_numb:int, logo:str):
         self.id = id
         self.name = name
         self.town = town
@@ -31,16 +31,16 @@ class Bank:
 
 
 banks = [
-    Bank(1, "PKO Bank Polski", "Warszawa", "Marszałkowska", 12, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(2, "ING Bank Śląski", "Kraków", "Długa", 5, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(3, "Santander Bank Polska", "Wrocław", "Rynek", 9, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(4, "mBank", "Łódź", "Piotrkowska", 87, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(5, "Alior Bank", "Gdańsk", "Długa", 13, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(6, "Millennium Bank", "Poznań", "Półwiejska", 32, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(7, "BNP Paribas", "Katowice", "3 Maja", 10, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(8, "Credit Agricole", "Opole", "Ozimska", 19, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(9, "Citi Handlowy", "Szczecin", "Aleja Niepodległości", 22, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
-    Bank(10, "Nest Bank", "Warszawa", "Puławska", 145, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "PKO Bank Polski", "Warszawa", "Marszałkowska", 12, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "ING Bank Śląski", "Kraków", "Długa", 5, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "Santander Bank Polska", "Wrocław", "Rynek", 9, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "mBank", "Łódź", "Piotrkowska", 87, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "Alior Bank", "Gdańsk", "Długa", 13, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "Millennium Bank", "Poznań", "Półwiejska", 32, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "BNP Paribas", "Katowice", "3 Maja", 10, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "Credit Agricole", "Opole", "Ozimska", 19, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "Citi Handlowy", "Szczecin", "Aleja Niepodległości", 22, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "Nest Bank", "Warszawa", "Puławska", 145, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
 ]
 
 class Worker:
