@@ -41,6 +41,8 @@ banks = [
     Bank( "Credit Agricole", "Opole", "Ozimska", 19, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
     Bank( "Citi Handlowy", "Szczecin", "Aleja Niepodległości", 22, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
     Bank( "Nest Bank", "Warszawa", "Puławska", 145, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+    Bank( "Felek Bank", "Wieluń", "Andersa", 3, "https://cdn.pixabay.com/photo/2017/11/01/11/34/bank-2907728_1280.jpg"),
+
 ]
 
 class Worker:
@@ -115,6 +117,8 @@ workers = [
     Worker("Karolina", "Michalak", banks[9], "Kasjer", "Warszawa", "Wilanowska", 19, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "k.michalak", "123"),
     Worker("Piotr", "Sadowski", banks[9], "Manager", "Warszawa", "Dolna", 31, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.sadowski", "123"),
     Worker("Natalia", "Ciechanowska", banks[9], "Doradca", "Warszawa", "Rakowiecka", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "n.ciechanowska", "123"),
+    Worker("Dawid", "Kalbarczyk", banks[10], "Doradca", "Wieluń", "Długosza", 2, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "d.kalbarczyk", "123"),
+    Worker("Bigosław", "Zupowski", banks[10], "Szef", "Wieluń", "3 Maja", 28, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "zupa123", "ogórkowa7"),
 ]
 
 
