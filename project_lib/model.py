@@ -44,7 +44,7 @@ banks = [
 ]
 
 class Worker:
-    def __init__(self, name:str, surname:str, bank:str, role:str, town:str, street:str, home_number:int, img:str, password:str):
+    def __init__(self, name:str, surname:str, bank:str, role:str, town:str, street:str, home_number:int, img:str, login:str, password:str):
         self.name = name
         self.surname = surname
         self.bank = bank
@@ -53,6 +53,7 @@ class Worker:
         self.street = street
         self.home_number = home_number
         self.img = img
+        self.login=login
         self.password = password
         self.coords=self.get_coords()
 
@@ -74,47 +75,48 @@ class Worker:
         self.coords = self.get_coords()
 
 workers = [
-    Worker("Jan", "Kowalski", banks[0], "Doradca", "Warszawa", "Marszałkowska", 11, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Anna", "Nowak", banks[0], "Kasjer", "Warszawa", "Aleje Jerozolimskie", 22, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Piotr", "Wiśniewski", banks[0], "Manager", "Warszawa", "Nowy Świat", 33, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Katarzyna", "Mazur", banks[0], "Doradca", "Warszawa", "Puławska", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Michał", "Lewandowski", banks[1], "Doradca", "Kraków", "Długa", 12, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Julia", "Zając", banks[1], "Kasjer", "Kraków", "Floriańska", 24, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Krzysztof", "Lis", banks[1], "Manager", "Kraków", "Lubicz", 36, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Alicja", "Baran", banks[1], "Doradca", "Kraków", "Karmelicka", 48, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Adam", "Borkowski", banks[2], "Doradca", "Wrocław", "Rynek", 3, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Ewa", "Szulc", banks[2], "Kasjer", "Wrocław", "Świdnicka", 14, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Rafał", "Michalak", banks[2], "Manager", "Wrocław", "Legnicka", 27, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Paulina", "Sadowska", banks[2], "Doradca", "Wrocław", "Grabiszyńska", 39, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Michał", "Domański", banks[3], "Doradca", "Łódź", "Piotrkowska", 7, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Karolina", "Urbańska", banks[3], "Kasjer", "Łódź", "Narutowicza", 19, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Paweł", "Laskowski", banks[3], "Manager", "Łódź", "Zielona", 31, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Natalia", "Czajka", banks[3], "Doradca", "Łódź", "Pomorska", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Krzysztof", "Urban", banks[4], "Doradca", "Gdańsk", "Długa", 4, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Alicja", "Wrona", banks[4], "Kasjer", "Gdańsk", "Grunwaldzka", 17, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Marcin", "Sowa", banks[4], "Manager", "Gdańsk", "Kartuska", 26, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Patrycja", "Lis", banks[4], "Doradca", "Gdańsk", "Hallera", 39, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Mateusz", "Kaczor", banks[5], "Doradca", "Poznań", "Półwiejska", 6, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Ewelina", "Mróz", banks[5], "Kasjer", "Poznań", "Głogowska", 18, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Piotr", "Głowacki", banks[5], "Manager", "Poznań", "Dąbrowskiego", 27, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Justyna", "Olejniczak", banks[5], "Doradca", "Poznań", "Hetmańska", 41, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Tomasz", "Kowalczyk", banks[6], "Doradca", "Katowice", "3 Maja", 5, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Aleksandra", "Piekarska", banks[6], "Kasjer", "Katowice", "Warszawska", 17, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Marek", "Sikora", banks[6], "Manager", "Katowice", "Chorzowska", 28, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Natalia", "Gajda", banks[6], "Doradca", "Katowice", "Sokolska", 41, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Michał", "Zieliński", banks[7], "Doradca", "Opole", "Ozimska", 6, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Joanna", "Kopeć", banks[7], "Kasjer", "Opole", "Katowicka", 18, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Kamil", "Barczyk", banks[7], "Manager", "Opole", "Niemodlińska", 29, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Patrycja", "Duda", banks[7], "Doradca", "Opole", "Reymonta", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Tomasz", "Lewicki", banks[8], "Doradca", "Szczecin", "Aleja Niepodległości", 4, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Magdalena", "Sarnecka", banks[8], "Kasjer", "Szczecin", "Wojska Polskiego", 16, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Paweł", "Kosiński", banks[8], "Manager", "Szczecin", "Jagiellońska", 27, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Katarzyna", "Brzozowska", banks[8], "Doradca", "Szczecin", "Bohaterów Warszawy", 39, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Adam", "Wierzbicki", banks[9], "Doradca", "Warszawa", "Puławska", 8, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Karolina", "Michalak", banks[9], "Kasjer", "Warszawa", "Wilanowska", 19, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Piotr", "Sadowski", banks[9], "Manager", "Warszawa", "Dolna", 31, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
-    Worker("Natalia", "Ciechanowska", banks[9], "Doradca", "Warszawa", "Rakowiecka", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "123"),
+    Worker("Jan", "Kowalski", banks[0], "Doradca", "Warszawa", "Marszałkowska", 11, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "j.kowalski", "123"),
+    Worker("Anna", "Nowak", banks[0], "Kasjer", "Warszawa", "Aleje Jerozolimskie", 22, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "a.nowak", "123"),
+    Worker("Piotr", "Wiśniewski", banks[0], "Manager", "Warszawa", "Nowy Świat", 33, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.wisniewski", "123"),
+    Worker("Katarzyna", "Mazur", banks[0], "Doradca", "Warszawa", "Puławska", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "k.mazur", "123"),
+    Worker("Michał", "Lewandowski", banks[1], "Doradca", "Kraków", "Długa", 12, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "m.lewandowski", "123"),
+    Worker("Julia", "Zając", banks[1], "Kasjer", "Kraków", "Floriańska", 24, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "j.zajac", "123"),
+    Worker("Krzysztof", "Lis", banks[1], "Manager", "Kraków", "Lubicz", 36, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "k.lis", "123"),
+    Worker("Alicja", "Baran", banks[1], "Doradca", "Kraków", "Karmelicka", 48, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "a.baran", "123"),
+    Worker("Adam", "Borkowski", banks[2], "Doradca", "Wrocław", "Rynek", 3, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "a.borkowski", "123"),
+    Worker("Ewa", "Szulc", banks[2], "Kasjer", "Wrocław", "Świdnicka", 14, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "e.szulc", "123"),
+    Worker("Rafał", "Michalak", banks[2], "Manager", "Wrocław", "Legnicka", 27, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "r.michalak", "123"),
+    Worker("Paulina", "Sadowska", banks[2], "Doradca", "Wrocław", "Grabiszyńska", 39, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.sadowska", "123"),
+    Worker("Michał", "Domański", banks[3], "Doradca", "Łódź", "Piotrkowska", 7, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "m.domanski", "123"),
+    Worker("Karolina", "Urbańska", banks[3], "Kasjer", "Łódź", "Narutowicza", 19, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "k.urbanska", "123"),
+    Worker("Paweł", "Laskowski", banks[3], "Manager", "Łódź", "Zielona", 31, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.laskowski", "123"),
+    Worker("Natalia", "Czajka", banks[3], "Doradca", "Łódź", "Pomorska", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "n.czajka", "123"),
+    Worker("Krzysztof", "Urban", banks[4], "Doradca", "Gdańsk", "Długa", 4, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "k.urban", "123"),
+    Worker("Alicja", "Wrona", banks[4], "Kasjer", "Gdańsk", "Grunwaldzka", 17, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "a.wrona", "123"),
+    Worker("Marcin", "Sowa", banks[4], "Manager", "Gdańsk", "Kartuska", 26, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "m.sowa", "123"),
+    Worker("Patrycja", "Lis", banks[4], "Doradca", "Gdańsk", "Hallera", 39, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.lis", "123"),
+    Worker("Mateusz", "Kaczor", banks[5], "Doradca", "Poznań", "Półwiejska", 6, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "m.kaczor", "123"),
+    Worker("Ewelina", "Mróz", banks[5], "Kasjer", "Poznań", "Głogowska", 18, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "e.mroz", "123"),
+    Worker("Piotr", "Głowacki", banks[5], "Manager", "Poznań", "Dąbrowskiego", 27, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.glowacki", "123"),
+    Worker("Justyna", "Olejniczak", banks[5], "Doradca", "Poznań", "Hetmańska", 41, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "j.olejniczak", "123"),
+    Worker("Tomasz", "Kowalczyk", banks[6], "Doradca", "Katowice", "3 Maja", 5, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "t.kowalczyk", "123"),
+    Worker("Aleksandra", "Piekarska", banks[6], "Kasjer", "Katowice", "Warszawska", 17, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "a.piekarska", "123"),
+    Worker("Marek", "Sikora", banks[6], "Manager", "Katowice", "Chorzowska", 28, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "m.sikora", "123"),
+    Worker("Natalia", "Gajda", banks[6], "Doradca", "Katowice", "Sokolska", 41, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "n.gajda", "123"),
+    Worker("Michał", "Zieliński", banks[7], "Doradca", "Opole", "Ozimska", 6, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "m.zielinski", "123"),
+    Worker("Joanna", "Kopeć", banks[7], "Kasjer", "Opole", "Katowicka", 18, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "j.kopec", "123"),
+    Worker("Kamil", "Barczyk", banks[7], "Manager", "Opole", "Niemodlińska", 29, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "k.barczyk", "123"),
+    Worker("Patrycja", "Duda", banks[7], "Doradca", "Opole", "Reymonta", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.duda", "123"),
+    Worker("Tomasz", "Lewicki", banks[8], "Doradca", "Szczecin", "Aleja Niepodległości", 4, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "t.lewicki", "123"),
+    Worker("Magdalena", "Sarnecka", banks[8], "Kasjer", "Szczecin", "Wojska Polskiego", 16, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "m.sarnecka", "123"),
+    Worker("Paweł", "Kosiński", banks[8], "Manager", "Szczecin", "Jagiellońska", 27, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.kosinski", "123"),
+    Worker("Katarzyna", "Brzozowska", banks[8], "Doradca", "Szczecin", "Bohaterów Warszawy", 39, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "k.brzozowska", "123"),
+    Worker("Adam", "Wierzbicki", banks[9], "Doradca", "Warszawa", "Puławska", 8, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "a.wierzbicki", "123"),
+    Worker("Karolina", "Michalak", banks[9], "Kasjer", "Warszawa", "Wilanowska", 19, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "k.michalak", "123"),
+    Worker("Piotr", "Sadowski", banks[9], "Manager", "Warszawa", "Dolna", 31, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "p.sadowski", "123"),
+    Worker("Natalia", "Ciechanowska", banks[9], "Doradca", "Warszawa", "Rakowiecka", 44, "https://cdn.pixabay.com/photo/2021/12/20/17/22/cat-6883580_1280.png", "n.ciechanowska", "123"),
 ]
+
 
 
 class User:

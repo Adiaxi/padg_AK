@@ -11,8 +11,6 @@ from PIL import Image
 from io import BytesIO
 import requests
 
-#OSMNX BIBLIOTEKA SPRAWDZIĆ
-#ROBIC COMMITY! ! !
 
 class Login:
     def __init__(self):
@@ -164,6 +162,9 @@ class AppView:
             ent.delete(0, END)
 
     def bank_info(self):
+        self.selected_label = None
+        self.selected_bank = None
+
         for i in self.bank_listbox.winfo_children():
             i.destroy()
         self.refresh_markers()
@@ -363,14 +364,14 @@ class AppView:
         self.w_root.grab_set()
         self.w_root.title("Add")
         self.w_root.configure(fg_color="#69797D")
-        self.w_root.geometry("500x500")
+        self.w_root.geometry("500x550")
         self.w_root.grid_rowconfigure(0, weight=1)
         self.w_root.grid_columnconfigure(0, weight=1)
         self.window_form_frame = ctk.CTkFrame(self.w_root, corner_radius=12)
         self.window_form_frame.grid(row=0, column=0, padx=15, pady=15, sticky='nsew')
         self.window_form_frame.grid_columnconfigure(1, weight=1)
         self.head = ctk.CTkLabel(self.window_form_frame, text="Edit Worker", font=('Montserrat', 25, "bold")).grid(row=0,column=0,columnspan=2,pady=(10,15))
-        labels = ["Name", "Surname", "Bank", "Role","Town", "Street", "Home Number", "Photo", "Password"]
+        labels = ["Name", "Surname", "Bank", "Role","Town", "Street", "Home Number", "Photo", "Login", "Password"]
         for i, text in enumerate(labels, start=1):
             ctk.CTkLabel(self.window_form_frame, text=text, font=('Montserrat', 18, "bold"), anchor="w").grid(row=i,column=0,padx=(15,5),pady=5,sticky='w')
         self.entry_worker_name = ctk.CTkEntry(self.window_form_frame)
@@ -396,6 +397,8 @@ class AppView:
         self.entry_worker_number.insert(0, self.selected_worker.home_number)
         self.entry_worker_photo = ctk.CTkEntry(self.window_form_frame)
         self.entry_worker_photo.insert(0, self.selected_worker.img)
+        self.entry_worker_login = ctk.CTkEntry(self.window_form_frame)
+        self.entry_worker_login.insert(0, self.selected_worker.login)
         self.entry_worker_password = ctk.CTkEntry(self.window_form_frame, show="*")
         entries = [
             self.entry_worker_name,
@@ -406,6 +409,7 @@ class AppView:
             self.entry_worker_street,
             self.entry_worker_number,
             self.entry_worker_photo,
+            self.entry_worker_login,
             self.entry_worker_password
         ]
 
@@ -419,8 +423,8 @@ class AppView:
                 bank_obj = b
                 break
 
-        self.button_worker_save = ctk.CTkButton(self.window_form_frame, text="Save", font=('Montserrat', 20, "bold"),width=120, height=35, command=lambda: (self.selected_worker.update(self.entry_worker_name.get(), self.entry_worker_surname.get(), next(b for b in banks if b.name == self.bank_var.get()),self.entry_worker_role.get(), self.entry_worker_town.get(), self.entry_worker_street.get(),self.entry_worker_number.get(), self.entry_worker_photo.get(),self.entry_worker_password.get()), self.worker_entry_clear(), self.worker_info()))
-        self.button_worker_save.grid(row=10, column=0, columnspan=2, padx=30, pady=25, sticky="nsew")
+        self.button_worker_save = ctk.CTkButton(self.window_form_frame, text="Save", font=('Montserrat', 20, "bold"),width=120, height=35, command=lambda: (add_worker(self.entry_worker_name.get(), self.entry_worker_surname.get(),next(b for b in banks if b.name == self.bank_var.get()), self.entry_worker_role.get(),self.entry_worker_town.get(), self.entry_worker_street.get(), self.entry_worker_number.get(),self.entry_worker_photo.get(), self.entry_worker_login.get(),self.entry_worker_password.get()), self.worker_entry_clear(), self.worker_info()))
+        self.button_worker_save.grid(row=11, column=0, columnspan=2, padx=30, pady=25, sticky="nsew")
 
     def build_worker_form(self):
         self.w_root = ctk.CTkToplevel(self.root)
@@ -428,14 +432,14 @@ class AppView:
         self.w_root.grab_set()
         self.w_root.title("Add")
         self.w_root.configure(fg_color="#69797D")
-        self.w_root.geometry("500x500")
+        self.w_root.geometry("500x550")
         self.w_root.grid_rowconfigure(0, weight=1)
         self.w_root.grid_columnconfigure(0, weight=1)
         self.window_form_frame = ctk.CTkFrame(self.w_root, corner_radius=12)
         self.window_form_frame.grid(row=0, column=0, padx=15, pady=15, sticky='nsew')
         self.window_form_frame.grid_columnconfigure(1, weight=1)
         self.head = ctk.CTkLabel(self.window_form_frame, text="Add Worker", font=('Montserrat', 25, "bold")).grid(row=0,column=0,columnspan=2,pady=(10,15))
-        labels = ["Name", "Surname", "Bank ID", "Role","Town", "Street", "Home Number", "Photo", "Password"]
+        labels = ["Name", "Surname", "Bank ID", "Role","Town", "Street", "Home Number", "Photo","Login", "Password"]
         for i, text in enumerate(labels, start=1):
             ctk.CTkLabel(self.window_form_frame, text=text, font=('Montserrat', 18, "bold"), anchor="w").grid(row=i,column=0,padx=(15,5),pady=5,sticky='w')
         self.entry_worker_name = ctk.CTkEntry(self.window_form_frame)
@@ -453,6 +457,7 @@ class AppView:
         self.entry_worker_street = ctk.CTkEntry(self.window_form_frame)
         self.entry_worker_number = ctk.CTkEntry(self.window_form_frame)
         self.entry_worker_photo = ctk.CTkEntry(self.window_form_frame)
+        self.entry_worker_login = ctk.CTkEntry(self.window_form_frame)
         self.entry_worker_password = ctk.CTkEntry(self.window_form_frame, show="*")
         entries = [
             self.entry_worker_name,
@@ -463,12 +468,13 @@ class AppView:
             self.entry_worker_street,
             self.entry_worker_number,
             self.entry_worker_photo,
+            self.entry_worker_login,
             self.entry_worker_password
         ]
         for i, entry in enumerate(entries, start=1):
             entry.grid(row=i, column=1, padx=15, pady=5, sticky='nsew')
-        self.button_worker_save = ctk.CTkButton(self.window_form_frame, text="Save", font=('Montserrat', 20, "bold"),width=120, height=35, command=lambda: (add_worker(self.entry_worker_name.get(), self.entry_worker_surname.get(),next(b for b in banks if b.name == self.bank_var.get()), self.entry_worker_role.get(),  self.entry_worker_town.get(), self.entry_worker_street.get(),self.entry_worker_number.get(), self.entry_worker_photo.get(),self.entry_worker_password.get()), self.worker_entry_clear(), self.worker_info()))
-        self.button_worker_save.grid(row=10, column=0, columnspan=2, padx=30, pady=25, sticky="nsew")
+        self.button_worker_save = ctk.CTkButton(self.window_form_frame, text="Save", font=('Montserrat', 20, "bold"),width=120, height=35, command=lambda: (add_worker(self.entry_worker_name.get(), self.entry_worker_surname.get(),next(b for b in banks if b.name == self.bank_var.get()), self.entry_worker_role.get(),self.entry_worker_town.get(), self.entry_worker_street.get(), self.entry_worker_number.get(),self.entry_worker_photo.get(), self.entry_worker_login.get(),self.entry_worker_password.get()), self.worker_entry_clear(), self.worker_info()))
+        self.button_worker_save.grid(row=11, column=0, columnspan=2, padx=30, pady=25, sticky="nsew")
 
 
     def worker_entry_clear(self):
@@ -480,11 +486,15 @@ class AppView:
             self.entry_worker_street,
             self.entry_worker_number,
             self.entry_worker_photo,
+            self.entry_worker_login,
             self.entry_worker_password
         ):
             ent.delete(0, END)
 
     def worker_info(self):
+        self.selected_label_worker = None
+        self.selected_worker = None
+
         for i in self.worker_listbox.winfo_children():
             i.destroy()
         self.refresh_markers()
@@ -532,7 +542,7 @@ class AppView:
         self.w_root.lift()
         self.w_root.focus_force()
         self.w_root.title("Worker Details")
-        self.w_root.geometry("400x400")
+        self.w_root.geometry("400x550")
         self.w_root.configure(fg_color="#69797D")
         self.w_root.grid_rowconfigure(0, weight=1)
         self.w_root.grid_rowconfigure(1, weight=4)
@@ -570,9 +580,10 @@ class AppView:
             self.selected_worker.bank.name,
             self.selected_worker.town,
             self.selected_worker.street,
-            self.selected_worker.home_number
+            self.selected_worker.home_number,
+            self.selected_worker.login
         ]
-        tt = ["Role", "Bank", "City", "Street", "Number"]
+        tt = ["Role", "Bank", "City", "Street", "Number", "Login"]
         for i in range(len(t)):
             ctk.CTkLabel(
                 self.worker_details_body,
@@ -587,7 +598,7 @@ class AppView:
                 text_color="white"
             ).grid(row=i + 1, column=1, padx=(0, 20), pady=5, sticky="e")
 
-    # USERS
+# USERS
     def build_user_window_button_frame(self):
         self.user_window_button=ctk.CTkButton(self.user_window_button_frame,text="Bank Users",font=("Montserrat", 18, "bold"),width=140,fg_color="#6366F1",hover_color = "#818CF8",corner_radius=10, command=lambda: self.build_user_window())
         self.user_window_button.grid(row=0, column=0, columnspan=5, padx=40, pady=15, sticky='nsew')
@@ -620,7 +631,7 @@ class AppView:
         self.user_add_btn.grid(row=2, column=0, padx=10, pady=15)
         self.user_details_btn = ctk.CTkButton(self.user_frame, text="Details", font=("Montserrat", 14, "bold"),width=140, fg_color='#37474F', hover_color="#455A64", command=lambda: self.build_user_details_window())
         self.user_details_btn.grid(row=2, column=1, padx=10, pady=15)
-        self.user_edit_btn = ctk.CTkButton(self.user_frame, text="Edit", font=("Montserrat", 14, "bold"), width=140,fg_color='#D97706', hover_color="#F59E0B")
+        self.user_edit_btn = ctk.CTkButton(self.user_frame, text="Edit", font=("Montserrat", 14, "bold"), width=140,fg_color='#D97706', hover_color="#F59E0B", command= lambda:self.build_user_edit_form())
         self.user_edit_btn.grid(row=2, column=2, padx=10, pady=15)
         self.user_info()
 
@@ -632,8 +643,8 @@ class AppView:
         self.w_root.destroy()
 
     def build_user_form(self):
-        self.u_root = ctk.CTkToplevel(self.w_root)
-        self.u_root.transient(self.w_root)
+        self.u_root = ctk.CTkToplevel(self.root)
+        self.u_root.transient(self.root)
         self.u_root.grab_set()
         self.u_root.title("Add")
         self.u_root.configure(fg_color="#69797D")
@@ -679,8 +690,66 @@ class AppView:
         ]
         for i, entry in enumerate(entries, start=1):
             entry.grid(row=i, column=1, padx=15, pady=5, sticky='nsew')
-        self.button_bank_save = ctk.CTkButton(self.window_form_frame, text="Save", font=('Montserrat', 20, "bold"),width=120, height=35)
-        self.button_bank_save.grid(row=11, column=0, columnspan=2, padx=30, pady=25, sticky="nsew")
+        self.button_user_save = ctk.CTkButton(self.window_form_frame,text="Save",font=('Montserrat', 20, "bold"),width=120,height=35,command=lambda: (add_user(self.entry_user_name.get(),self.entry_user_surname.get(),next(b for b in banks if b.name == self.bank_var.get()),self.entry_user_town.get(),self.entry_user_street.get(),self.entry_user_home_number.get(),self.entry_user_email.get(),self.entry_user_phone.get(),self.entry_user_password.get(),self.entry_user_balance.get() or 0),self.user_entry_clear(),self.user_info()))
+        self.button_user_save.grid(row=11, column=0, columnspan=2, padx=30, pady=25, sticky="nsew")
+
+    def build_user_edit_form(self):
+        self.u_root = ctk.CTkToplevel(self.w_root)
+        self.u_root.transient(self.w_root)
+        self.u_root.title("Edit")
+        self.u_root.configure(fg_color="#69797D")
+        self.u_root.geometry("400x550")
+        self.u_root.grid_rowconfigure(0, weight=1)
+        self.u_root.grid_columnconfigure(0, weight=1)
+        self.window_form_frame = ctk.CTkFrame(self.u_root, corner_radius=12)
+        self.window_form_frame.grid(row=0, column=0, padx=15, pady=15, sticky='nsew')
+        self.window_form_frame.grid_columnconfigure(1, weight=1)
+        self.head = ctk.CTkLabel(self.window_form_frame, text="Edit user", font=('Montserrat', 25, "bold")).grid(row=0,column=0,columnspan=2,pady=(10,15))
+        labels = ["Name", "Surname", "Bank", "City", "Street", "Home Number", "E-mail", "Phone", "Password", "Balance"]
+        for i, text in enumerate(labels, start=1):
+            ctk.CTkLabel(self.window_form_frame, text=text, font=('Montserrat', 18, "bold"), anchor="w").grid(row=i,column=0,padx=(15,5),pady=5, sticky='w')
+        self.entry_user_name = ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_name.insert(0,self.selected_user.name)
+        self.entry_user_surname = ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_surname.insert(0,self.selected_user.surname)
+        self.bank_var = ctk.StringVar(value=banks[0].name)
+        self.entry_user_bank = ctk.CTkOptionMenu(
+            self.window_form_frame,
+            variable=self.bank_var,
+            values=[b.name for b in banks]
+        )
+        self.bank_var.set(self.selected_user.bank.name)
+        self.entry_user_town = ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_town.insert(0,self.selected_user.town)
+        self.entry_user_phone = ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_phone.insert(0,self.selected_user.phone)
+        self.entry_user_street = ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_street.insert(0,self.selected_user.street)
+        self.entry_user_home_number = ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_home_number.insert(0,self.selected_user.home_number)
+        self.entry_user_email = ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_email.insert(0,self.selected_user.email)
+        self.entry_user_phone = ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_phone.insert(0,self.selected_user.phone)
+        self.entry_user_password=ctk.CTkEntry(self.window_form_frame)
+        self.entry_user_balance=ctk.CTkEntry(self.window_form_frame)
+
+        entries = [
+            self.entry_user_name,
+            self.entry_user_surname,
+            self.entry_user_bank,
+            self.entry_user_town,
+            self.entry_user_street,
+            self.entry_user_home_number,
+            self.entry_user_email,
+            self.entry_user_phone,
+            self.entry_user_password,
+            self.entry_user_balance
+        ]
+        for i, entry in enumerate(entries, start=1):
+            entry.grid(row=i, column=1, padx=15, pady=5, sticky='nsew')
+        self.button_user_save = ctk.CTkButton(self.window_form_frame,text="Save",font=('Montserrat', 20, "bold"),width=120,height=35,command=lambda: (add_user(self.entry_user_name.get(),self.entry_user_surname.get(),next(b for b in banks if b.name == self.bank_var.get()),self.entry_user_town.get(),self.entry_user_street.get(),self.entry_user_home_number.get(),self.entry_user_email.get(),self.entry_user_phone.get(),self.entry_user_password.get(),self.entry_user_balance.get() or 0),self.user_entry_clear(),self.user_info()))
+        self.button_user_save.grid(row=11, column=0, columnspan=2, padx=30, pady=25, sticky="nsew")
 
     def filter_users(self):
         u = self.user_search.get().lower()
@@ -692,7 +761,6 @@ class AppView:
         for ent in (
             self.entry_user_name,
             self.entry_user_surname,
-            self.entry_user_bank,
             self.entry_user_town,
             self.entry_user_street,
             self.entry_user_home_number,
@@ -705,6 +773,8 @@ class AppView:
             ent.delete(0, END)
 
     def user_info(self):
+        self.selected_label_user = None
+        self.selected_user = None
         for i in self.user_listbox.winfo_children():
             i.destroy()
         self.refresh_markers()
@@ -750,18 +820,22 @@ class AppView:
         if not self.selected_user:
             return
 
-        self.w_root = ctk.CTkToplevel(self.root)
-        self.w_root.transient(self.root)
-        self.w_root.lift()
-        self.w_root.focus_force()
-        self.w_root.title("User Details")
-        self.w_root.geometry("400x350")
-        self.w_root.configure(fg_color="#69797D")
-        self.w_root.grid_rowconfigure(0, weight=1)
-        self.w_root.grid_rowconfigure(1, weight=4)
-        self.w_root.grid_columnconfigure(0, weight=1)
+        lat, lon = self.selected_user.coords
+        self.map_widget.set_position(lat, lon)
+        self.map_widget.set_zoom(15)
 
-        self.user_details_header = ctk.CTkFrame(self.w_root, corner_radius=12)
+        self.d_root = ctk.CTkToplevel(self.root)
+        self.d_root.transient(self.root)
+        self.d_root.lift()
+        self.d_root.focus_force()
+        self.d_root.title("User Details")
+        self.d_root.geometry("400x350")
+        self.d_root.configure(fg_color="#69797D")
+        self.d_root.grid_rowconfigure(0, weight=1)
+        self.d_root.grid_rowconfigure(1, weight=4)
+        self.d_root.grid_columnconfigure(0, weight=1)
+
+        self.user_details_header = ctk.CTkFrame(self.d_root, corner_radius=12)
         self.user_details_header.grid(row=0, column=0, padx=15, pady=15, sticky='nsew')
         self.user_details_header.columnconfigure(0, weight=1)
         self.user_details_header.rowconfigure(0, weight=1)
@@ -774,7 +848,7 @@ class AppView:
         )
         self.details_header_lbl.grid(row=0, column=0, padx=10, ipady=5)
 
-        self.user_details_body = ctk.CTkFrame(self.w_root, corner_radius=12)
+        self.user_details_body = ctk.CTkFrame(self.d_root, corner_radius=12)
         self.user_details_body.grid(row=1, column=0, padx=15, pady=15, sticky='nsew')
         self.user_details_body.columnconfigure((0, 1), weight=1, uniform='x')
 
