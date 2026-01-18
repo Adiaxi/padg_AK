@@ -15,60 +15,66 @@ import requests
 class Login:
     def __init__(self):
 
-        self.root = ctk.CTk()
-        self.root.configure(background="#69797D")
-        self.root.title("Login")
-        self.root.geometry("400x350")
-
-        self.log_frame = Frame(self.root)
-        self.root.grid_rowconfigure(0, weight=1)
-        self.root.grid_columnconfigure(0, weight=1)
-        self.log_frame.grid(column=0, row=0)
+        self.l_root = ctk.CTk()
+        self.l_root.configure(fg_color="#69797D")
+        self.l_root.title("Login")
+        self.l_root.geometry("500x250")
+        self.log_frame = ctk.CTkFrame(self.l_root)
+        self.log_frame.grid_columnconfigure((0, 1), weight=1)
+        self.l_root.grid_rowconfigure(0, weight=1)
+        self.l_root.grid_columnconfigure(0, weight=1)
+        self.log_frame.grid(column=0, row=0, padx=20, pady=30, sticky='ew')
 
 
         self.build_login()
 
-    def log(self,log:str,psswd:str):
-        if  psswd == 'admin' and log == 'admin':
-            self.root.destroy()
-            app=AppView()
-            app.run()
+    def log(self, log: str, psswd: str):
+        for worker in workers:
+            if worker.login == log and worker.password==psswd:
+                self.l_root.withdraw()
+                AppView(self.l_root)
+                return
+
 
     def build_login(self):
-        self.log_name=Label(self.log_frame,text="Login", font=("Segoe UI", 14, 'bold'))
-        self.log_psswd=Label(self.log_frame,text="Password",font=("Segoe UI", 14, 'bold'))
-        self.entry_name=Entry(self.log_frame)
+        self.log_name = ctk.CTkLabel(self.log_frame, text="Login", font=("Segoe UI", 18, "bold"), anchor="center")
+        self.log_psswd = ctk.CTkLabel(self.log_frame, text="Password", font=("Segoe UI", 18, "bold"), anchor="center")
+        self.entry_name = ctk.CTkEntry(self.log_frame, font=("Segoe UI", 12, "bold"))
+        self.entry_pswd = ctk.CTkEntry(self.log_frame, show="*", font=("Segoe UI", 12, "bold"))
+        self.pswd_button = ctk.CTkButton(self.log_frame, text="See",font=("Segoe UI", 12, "bold"), width=40, command=self.pswd)
+        self.log_button = ctk.CTkButton(
+            self.log_frame,
+            text="Login",
+            command=lambda: self.log(self.entry_name.get(), self.entry_pswd.get()),
+            font=("Segoe UI", 16, "bold")
+        )
+        self.log_name.grid(column=0, row=0, padx=10, pady=(15,5), sticky="nsew")
+        self.log_psswd.grid(column=1, row=0, padx=10, pady=(15,5), sticky="nsew")
+        self.entry_name.grid(column=0, row=1, padx=10, pady=10,sticky="nsew")
+        self.entry_pswd.grid(column=1, row=1, padx=10, pady=10,sticky="nsew")
+        self.pswd_button.grid(column=2, row=1, padx=5, pady=5)
 
-        self.pswd_button = Button(self.log_frame, text="See", command=lambda: self.pswd())
-        self.pswd_button.grid(column=2,row=1, padx=5, pady=5)
-        self.entry_pswd=Entry(self.log_frame, show='*')
-
-        self.log_name.grid(column=0,row=0,padx=10,pady=10,sticky='W')
-        self.log_psswd.grid(column=1,row=0,padx=10,pady=10,sticky="W")
-        self.entry_name.grid(column=0,row=1,padx=10,pady=10)
-        self.entry_pswd.grid(column=1,row=1,padx=10,pady=10)
-
-        self.log_button=Button(self.log_frame,text='Login', command=lambda: self.log(self.entry_name.get(),self.entry_pswd.get()))
-        self.log_button.grid(column=0,row=2,padx=10,pady=10,sticky='W')
+        self.log_button.grid(column=0, row=2, columnspan=3, padx=10, pady=20)
 
     def pswd(self):
-        if self.entry_pswd.cget("show")=='*':
-            self.entry_pswd.config(show='')
+        if self.entry_pswd.cget("show") == "*":
+            self.entry_pswd.configure(show="")
+        else:
+            self.entry_pswd.configure(show="*")
 
-        elif self.entry_pswd.cget("show")=='':
-            self.entry_pswd.config(show='*')
     def run(self):
-         self.root.mainloop()
+        self.l_root.mainloop()
 
 
 
 class AppView:
-    def __init__(self):
+    def __init__(self, parent):
         self.bg_color: str = "#1F2933"
-        self.root = ctk.CTk()
+        self.root = ctk.CTkToplevel(parent)
         self.root.configure(fg_color=self.bg_color)
         self.root.title("PADG Projekt")
         self.root.geometry("1200x700")
+        self.root.protocol("WM_DELETE_WINDOW", parent.destroy)
 
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=7)
@@ -898,5 +904,3 @@ class AppView:
         self.add_worker_markers()
         self.add_user_markers()
         
-    def run(self):
-        self.root.mainloop()
