@@ -2,8 +2,9 @@ from project_lib import model, view
 import osmnx as ox
 
 
-def add_bank(name, town, street, number, logo)->None:
-    model.banks.append(model.Bank(name=name,town=town,street=street, build_numb=number, logo=logo))
+def add_bank(name, town, street, number, logo) -> None:
+    model.banks.append(model.Bank(name=name, town=town, street=street, build_numb=number, logo=logo))
+
 
 def delete_bank(bank):
     for w in model.workers[:]:
@@ -16,6 +17,7 @@ def delete_bank(bank):
 
     model.banks.remove(bank)
 
+
 def details_bank(bank):
     return {
         "name": bank.name,
@@ -25,12 +27,16 @@ def details_bank(bank):
         "coords": bank.coords
     }
 
-def add_worker(name, surname, bank, role, town, street, number, logo,login, password)->None:
-    model.workers.append(model.Worker(name=name, surname=surname, bank=bank, role=role, town=town, street=street, home_number=number, img=logo,login=login, password=password))
+
+def add_worker(name, surname, bank, role, town, street, number, logo, login, password) -> None:
+    model.workers.append(
+        model.Worker(name=name, surname=surname, bank=bank, role=role, town=town, street=street, home_number=number,
+                     img=logo, login=login, password=password))
 
 
 def delete_worker(worker):
     model.workers.remove(worker)
+
 
 def details_worker(worker):
     return {
@@ -44,6 +50,7 @@ def details_worker(worker):
         "login": worker.login,
         "coords": worker.coords
     }
+
 
 def add_user(name, surname, bank, town, street, number, email, phone, password, balance) -> None:
     model.users.append(
@@ -61,8 +68,10 @@ def add_user(name, surname, bank, town, street, number, email, phone, password, 
         )
     )
 
+
 def delete_user(user):
     model.users.remove(user)
+
 
 def details_user(user):
     return {
@@ -75,4 +84,3 @@ def details_user(user):
         "email": user.email,
         "phone": user
     }
-
