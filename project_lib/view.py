@@ -1,5 +1,5 @@
 from tkinter import *
-
+import osmnx as ox
 import tkintermapview as tkmapview
 import customtkinter as ctk
 from customtkinter import CTkEntry
@@ -87,6 +87,7 @@ class AppView:
         self.map_widget.set_position(52.2, 21.0)
         self.map_widget.set_zoom(10)
 
+
         self.side_bar_frame = ctk.CTkFrame(self.root, fg_color=self.bg_color)
         self.side_bar_frame.grid(row=0, column=1, sticky='nsew')
         self.side_bar_frame.grid_rowconfigure(0, weight=1)
@@ -130,6 +131,9 @@ class AppView:
         self.selected_label_user = None
         self.selected_user = None
         self.user_window_open = False
+
+        self.build_search_button()
+        self.build_button_unzoom()
 
 
 # BANKS
@@ -903,4 +907,26 @@ class AppView:
         self.add_bank_markers()
         self.add_worker_markers()
         self.add_user_markers()
-        
+
+    def build_search_button(self):
+        self.address_search_entry=ctk.CTkEntry(self.map_frame,font=("Segoe UI", 12, "bold"),width=250,placeholder_text="Enter Address")
+        self.address_button_search=ctk.CTkButton(self.map_frame, text="Search",font=("Segoe UI", 12, "bold"),width=60, fg_color="#7C3AED", hover_color="#8B5CF6", command=lambda:self.zoom_to())
+
+        self.address_search_entry.place(relx=0.46, rely=0.03, anchor="n")
+        self.address_button_search.place(relx=0.675, rely=0.03, anchor="n")
+
+    def zoom_to(self):
+        place = self.address_search_entry.get()
+        lat, lon = ox.geocode(place)
+        self.map_widget.set_position(lat, lon)
+        self.map_widget.set_zoom(16)
+        self.map_widget.set_marker(lat, lon)
+
+    def build_button_unzoom(self):
+        self.unzoom_button=ctk.CTkButton(self.map_frame, text=" - ",font=("Segoe UI", 12, "bold"),width=30, fg_color="#37474F", hover_color="#455A64", command=lambda:self.unzoom_to())
+        self.unzoom_button.place(relx=0.96, rely=0.03, anchor="n")
+
+    def unzoom_to(self):
+        self.map_widget.set_zoom(6)
+        self.map_widget.set_position(52.069, 19.480)
+

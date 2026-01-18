@@ -1,6 +1,5 @@
 from project_lib import controller as con, view
 import osmnx as ox
-import random
 
 
 users=[]
