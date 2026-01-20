@@ -719,7 +719,7 @@ class AppView:
                                         font=("Montserrat", 14, "bold"))
         self.user_search.grid(row=0, column=1, padx=(30, 2))
         self.user_search_btn = ctk.CTkButton(self.user_header, text='Go', width=25, height=25,
-                                             font=('Montserrat', 18, 'bold'), fg_color="#0EA5A4", hover_color="#14B8A6")
+                                             font=('Montserrat', 18, 'bold'), fg_color="#0EA5A4", hover_color="#14B8A6", command=lambda: self.filter_users())
         self.user_search_btn.grid(row=0, column=2, padx=10)
         self.user_listbox = ctk.CTkScrollableFrame(self.user_frame, width=400, corner_radius=20, fg_color='#37474F')
         self.user_listbox.grid(row=1, column=0, columnspan=5, padx=20, sticky='nsew')
